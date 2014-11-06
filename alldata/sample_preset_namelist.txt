@@ -1,0 +1,102 @@
+volca sample preset sample list
+00	Kick 1
+01	Kick 2
+02	Kick 3
+03	Kick 4
+04	Kick 5
+05	Kick 6
+06	Kick 7
+07	Kick 8
+08	Kick 9
+09	Kick 10
+10	Snare 1
+11	Snare 2
+12	Snare 3
+13	Snare 4
+14	Snare 5
+15	Snare 6
+16	Snare 7
+17	Snare 8
+18	Snare 9
+19	Snare 10
+20	Snare 11
+21	Snare 12
+22	Clap 1
+23	Clap 2
+24	Clap 3
+25	Clap 4
+26	Clap 5
+27	Clap 6
+28	Clap 7
+29	Clap 8
+30	Hihat 1
+31	Hihat 2
+32	Hihat 3
+33	Hihat 4
+34	Hihat 5
+35	Hihat 6
+36	Hihat 7
+37	Hihat 8
+38	Hihat 9
+39	Hihat 10
+40	Crash
+41	Ride
+42	Swoosh
+43	SynthRim
+44	SynthTom 1
+45	SynthTom 2
+46	SynthTom 3
+47	SynthTom 4
+48	Tom 1
+49	Tom 2
+50	SynthCow
+51	Bongo
+52	DoncaClaves
+53	SynthShaker
+54	Tambourine
+55	Cowbell
+56	DoncaSConga
+57	DoncaLBongo
+58	SynthPerc
+59	WhiteNoise
+60	SynthHit 1
+61	SynthHit 2
+62	SynthHit 3
+63	SynthHit 4
+64	SynthHit 5
+65	SynthHit 6
+66	SynthHit 7
+67	SynthHit 8
+68	SynthHit 9
+69	SynthHit 10
+70	PianoChord 1
+71	PianoChord 2
+72	PianoChord 3
+73	EPChord 1
+74	EPChord 2
+75	EPChord 3
+76	EPChord 4
+77	OrganChord
+78	BandHit 1
+79	BandHit 2
+80	BandHit 3
+81	StringsHit 1
+82	Choir
+83	GuitarHit 1
+84	GuitarHit 2
+85	KalimbaChord
+86	SynChord
+87	BellChord
+88	WindChime
+89	Airhorn
+90	VocalHit 1
+91	VocalHit 2
+92	VocalHit 3
+93	VocalHit 4
+94	VocalHit 5
+95	VocalHit 6
+96	VocalHit 7
+97	VocalHit 8
+98	VocalHit 9
+99	Doncamatic
+

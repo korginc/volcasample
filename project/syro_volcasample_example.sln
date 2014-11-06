@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "syro_volcasample_example", "syro_volcasample_example.vcxproj", "{BC7C2A34-2824-44E5-9278-B1A2AE4E97E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC7C2A34-2824-44E5-9278-B1A2AE4E97E2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BC7C2A34-2824-44E5-9278-B1A2AE4E97E2}.Debug|Win32.Build.0 = Debug|Win32
+		{BC7C2A34-2824-44E5-9278-B1A2AE4E97E2}.Release|Win32.ActiveCfg = Release|Win32
+		{BC7C2A34-2824-44E5-9278-B1A2AE4E97E2}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
