@@ -123,10 +123,10 @@ korg_syro_comp.c</p>
 
 <h3>3.2 outline of usage</h3>
 
-<ol type="a">
+<ol>
 <li>prepare the data to be converted</li>
 <li>call the conversion start function</li>
-<li>process syro data for each frame</li>
+<li>process syrodata for each frame</li>
 <li>call the conversion end function</li>
 </ol>
 
@@ -205,7 +205,7 @@ Once this function is called, you <strong>must</strong> call SyroVolcaSample_End
 
 <p>Refer to error codes in 3.4 in case of failure.</p>
 
-<h3>3.3c process SyroData per frame</h3>
+<h3>3.3c process syrodata per frame</h3>
 
 <p>Call the SyroVolcaSample_GetSample function</p>
 
@@ -513,14 +513,14 @@ If an error occurs during all transfer, all sample memory will be deleted.</p>
 <p>if you get an error try the following:</p>
 
 <ul>
-<li>is your volca sample firmware up to date? <a href="http://www.korg.com/us/products/dj/volca_sample/download.php" target="_blank">get latest here</a>.</li>
+<li>is your volca sample firmware up to date? <a href="http://www.korg.com/products/dj/volca_sample/download.php" target="_blank">get latest here</a>.</li>
 <li>is the audio device and volca sample properly connected with a stereo cable?</li>
 <li>is the output level high enough?</li>
 <li>are there any other sounds interrupting? (message alerts??)</li>
 <li>are you sure all audio EQ/effects/optimizers are turned off?</li>
 <li>if you get [Err][tyPE] check your volca sample system is up to date</li>
 <li>if you get [Err][FuLL] free some memory by deleting samples<br/>
-  this can be done on your volca sample by using the delete menu (refer to the manual in the <a href="http://www.korg.com/us/products/dj/volca_sample/download.php" target="_blank">ver.1.22 update package</a>)<br/>
+  this can be done on your volca sample by using the delete menu (refer to the manual in the <a href="http://www.korg.com/products/dj/volca_sample/download.php" target="_blank">ver.1.22 update package</a>)<br/>
   or by preparing and using sample delete syro streams.</li>
 <li>if you get [Err][btLo] change your batteries or use a power adapter.</li>
 </ul>
