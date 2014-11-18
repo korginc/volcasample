@@ -1,12 +1,3 @@
----
-layout: page
-title: ""
-date: 
-comments: true
-sharing: true
-footer: true
----
-
 The "example" folder contains sample executables that will let you quickly try out converting sample audio data into syrostream.
 
 ### Launch the executable to generate syrostream
@@ -17,7 +8,7 @@ The "example" folder contains sample executables that will let you quickly try o
 
 You have just performed conversion of "02 Kick 3.wav" contained in the same folder into syrostream "syro_stream.wav" with sample sample slot number 2. Play "syro_stream.wav" into the SYNC IN port of your volca and the sample will be transfered to slot number 2.
 
-\*refer to [6. transferring syrostream to your volca sample](/documentation.html#heading_id_doc_6) in documentation for details.
+\*refer to [6. transferring syrostream to your volca sample](http://korginc.github.io/volcasample/documentation.html#heading_id_doc_6) in documentation for details.
 
 ### To specify your own sample audio data and sample slot number
 
