@@ -1,325 +1,325 @@
 ----------------------------------------------------------------------
-1. �͂��߂ɁB
-�@volca sample SDK ���g���āAvolca sample�ɃT���v���f�[�^��]������@�\��
-�@����̃A�v���P�[�V�����ɑg�ݓ���邱�Ƃ��o���܂��B
+1. はじめに。
+　volca sample SDK を使って、volca sampleにサンプルデータを転送する機能を
+　自作のアプリケーションに組み入れることが出来ます。
 
-�@volca sample�́A�ő�100�̃T���v���E�T�E���h�����A���^�C����
-�@�G�f�B�b�g���Ȃ���V�[�P���X��g��ł������ƂŁA���͂ȃ��C�u�E�p�t�H�[�}���X��
-�@�ł���T���v���E�V�[�P���T�[�ł��B
-�@���i�ɂ��Ă̏��́A�R���O�E�z�[���y�[�W(http://www.korg.com/)��
-�@�Q�Ƃ��Ă��������B
+　volca sampleは、最大100個のサンプル・サウンドをリアルタイムに
+　エディットしながらシーケンスを組んでいくことで、強力なライブ・パフォーマンスが
+　できるサンプル・シーケンサーです。
+　製品についての情報は、コルグ・ホームページ(http://www.korg.com/)を
+　参照してください。
 
-�@syrostream�Ƃ́H
-�@�@volca sample�ɓ]�����邱�Ƃ��ł��鉹���f�[�^(������s�[�K�[��)��
-�@�@�����Ăт܂��B
+　syrostreamとは？
+　　volca sampleに転送することができる音声データ(いわゆるピーガー音)を
+　　こう呼びます。
 
-�@syrodata�Ƃ́H
-�@�@volca sample����M�ł��Asyrostream�ɕϊ�����O�̃f�[�^�������Ăт܂��B
-�@�@�T���v���f�[�^�A�p�^�[���f�[�^�A�S�T���v���f�[�^�A������܂��B
+　syrodataとは？
+　　volca sampleが受信でき、syrostreamに変換する前のデータをこう呼びます。
+　　サンプルデータ、パターンデータ、全サンプルデータ、があります。
 
 
 ----------------------------------------------------------------------
-2. �t�H���_�\��
+2. フォルダ構成
 
-�@volca sample SDK�ɂ́A�ȉ��̃t�H���_������܂��B
-�@�@syro    : syro SDK�{�̂ŁAsyrostream�𐶐����邽�߂̃t�@�C��������܂��B
-�@�@example : syro SDK���g���āAsyrostream��WAV�`���ŕۑ�����T���v���ł��B
-�@�@project : syro, example�t�H���_�̓��e���r���h���邽�߂̃v���W�F�N�g�ł��B
-              visual studio 2010�p�̃v���W�F�N�g�t�@�C���A�y��gcc,clang�p(*1)��Makefile���܂܂�܂��B
-�@�@pattern : �p�^�[���f�[�^�̍\���̒�`�A�y�сA�p�^�[���f�[�^������������֐�������܂��B
-�@�@alldata : �S�T���v�����ꊇ�ŕύX���鎞�ɑ��M����t�@�C��������܂��B
-�@�@�@�@�@�@�@�H��o�׏�Ԃ̃T���v���Z�b�g�y�ёS�����p�̃f�[�^������܂��B
+　volca sample SDKには、以下のフォルダがあります。
+　　syro    : syro SDK本体で、syrostreamを生成するためのファイルがあります。
+　　example : syro SDKを使って、syrostreamをWAV形式で保存するサンプルです。
+　　project : syro, exampleフォルダの内容をビルドするためのプロジェクトです。
+              visual studio 2010用のプロジェクトファイル、及びgcc,clang用(*1)のMakefileが含まれます。
+　　pattern : パターンデータの構造の定義、及び、パターンデータを初期化する関数があります。
+　　alldata : 全サンプルを一括で変更する時に送信するファイルがあります。
+　　　　　　　工場出荷状態のサンプルセット及び全消去用のデータがあります。
 
-    *1 : clang�̎���make CC=clang �Ƃ��܂��B
+    *1 : clangの時はmake CC=clang とします。
 
 ----------------------------------------------------------------------
-3. SDK ���g���� SyroStream���쐬�܂��͍Đ�����ɂ�
+3. SDK を使って SyroStreamを作成または再生するには
 
-�@volca sample SDK���g���āAsyrodata��syrostream�ɕϊ����邱�Ƃ��ł��܂��B
+　volca sample SDKを使って、syrodataをsyrostreamに変換することができます。
 
 
-3.1 �g�p����\�[�X�t�@�C���B
+3.1 使用するソースファイル。
 
-�@syro �t�H���_�ɂ���
-�@�@korg_syro_volcasample.c
-�@�@korg_syro_func.c
-�@�@korg_syro_comp.c
-�@�̂R�̃t�@�C�����K�v�ł��B
+　syro フォルダにある
+　　korg_syro_volcasample.c
+　　korg_syro_func.c
+　　korg_syro_comp.c
+　の３つのファイルが必要です。
 
-�@syro�̊֐����Ăяo�������\�[�X�t�@�C���ɂ́A
+　syroの関数を呼び出したいソースファイルには、
   #include "korg_syro_volcasample.h"
-�@��ǉ����Ă��������B
+　を追加してください。
 
 
-3.2 �Ăяo���̎菇(�T�v)
+3.2 呼び出しの手順(概要)
 
-�@�ϊ��͈ȉ��̎菇�ōs���܂��B
+　変換は以下の手順で行います。
 
-�@a.syrodata(�ϊ��������f�[�^)���������܂��B
-�@b.�ϊ��J�n�̊֐����Ăт܂��B
-�@c.syrostream�̃T���v���f�[�^��1�t���[�����Â擾���܂��B
-�@d.�ϊ��I���̊֐����Ăт܂��B
+　a.syrodata(変換したいデータ)を準備します。
+　b.変換開始の関数を呼びます。
+　c.syrostreamのサンプルデータを1フレーム分づつ取得します。
+　d.変換終了の関数を呼びます。
 
-�@�����ȉ��ŁA���ꂼ��̏ڍׂ�������܂��B
-�@�Ăяo���̎菇�ɂ��ẮA korg_syro_volcasample_example.c ���Q�l�ɂ��Ă��������B
-
-
-3.3 �Ăяo���̎菇�ɂ���(a)
-�@a.syrodata(�ϊ��������f�[�^)���������܂��B
-
-�@�@�ϊ��\�ȃf�[�^�́A�T���v���y�уp�^�[���ł��B
-�@�@�܂��A�T���v���̏������w�肷�邱�Ƃ��ł��܂��B���̏ꍇ��syrodata�͕s�v�ł��B
-�@�@��x�ɕ����̃f�[�^�𑗂邽�߂�syrostream�𐶐����邱�Ƃ��\�ł��B
-
-�@�@�f�[�^������������ASyroData�\���̂ɕK�v�ȏ����Z�b�g���܂��B
-    �@SyroDataType DataType;
-�@�@�@�@syrodata�̎�ʂ��w�肵�܂��B
-�@�@    DataType_Sample_Compress �@�@: �P��T���v���f�[�^�̕ϊ�
-�@	DataType_Sample_Erase    �@�@: �P��T���v���f�[�^�̏���
-�@�@�@�@DataType_Sample_AllCompress�@: �S�T���v���f�[�^�̕ϊ�
-�@�@�@�@DataType_Pattern         �@�@: �p�^�[���f�[�^�̕ϊ�
-�@�@�@�@���w��\�ł��B
-�@�@�@�@�P��T���v���f�[�^��ϊ�����ꍇ�A�T���v���`���́u16�r�b�g�v�u���m�����v����ƂȂ�܂��B
-�@�@�@�@24�r�b�g���̃T���v����ϊ��������ꍇ�́A16�r�b�g�ɕϊ����Ă���syro ���Ăяo���Ă��������B
-�@�@�@�@�S�T���v���f�[�^�̕ϊ��̏ꍇ�́Avolca sample SDK��alldata�ɂ���A�g���q��.alldata�t�@�C���̂ݎw��\�ł��B
-
-�@�@�@uint8_t *pData;
-	syrodata�̃|�C���^���w�肵�܂��B
-�@�@�@�@�T���v������������ꍇ�͎Q�Ƃ���܂���A
-
-�@�@�@uint32_t Number;
-�@�@�@�@�T���v���A�܂��́A�p�^�[���̔ԍ����w�肵�܂��B
-�@�@�@�@�T���v���̏ꍇ�� 0~99���w��\�ł��B
-�@�@�@�@�p�^�[���̏ꍇ�� 0~9���w��\�ł��B
-�@�@�@�@volca sample��̃p�^�[���ԍ�����1�������l���w�肵�Ă��������B
-
-�@�@�@uint32_t Size;
-�@�@�@�@syrodata�̃o�C�g�T�C�Y���w�肵�܂��B
-�@�@�@�@�T���v���f�[�^�̏ꍇ���܂߁A�S�Ẵf�[�^�Ńo�C�g�T�C�Y�ɂȂ�܂��B
-�@�@�@�@�p�^�[���f�[�^�̏ꍇ�́A0xA40�Œ�l��ݒ肵�Ă��������B
-�@�@�@�@(volcasample_pattern.h��include����΁Asizeof(VolcaSample_Pattern_Data)�����l�ɂȂ�܂�)
-�@�@�@�@�T���v������������ꍇ�͎Q�Ƃ���܂���B
-
-�@�@�@uint32_t Quality;
-�@�@�@�@�T���v���̗L���r�b�g����8~16�Ŏw�肵�܂��B
-�@�@�@�@�T���v���f�[�^��]������ꍇ�A�r�b�g���𗎂Ƃ����Ƃœ]�����Ԃ�Z�����邱�Ƃ��o���܂��B
-�@�@�@�@�����Ŏw�肷�鐔�l�Ɋւ�炸�A��������T���v���f�[�^��16�r�b�g�ł���K�v������܂��B
-�@�@�@�@�܂��Avolca sample��ł�16�r�b�g�ŕۑ�����̂ŁA�ۑ�����T���v�����Ԃɂ͉e���͂���܂���B
-�@�@�@�@�r�b�g���𗎂Ƃ������b�g�́A�]�����Ԃ�Z�����邱�Ƃ݂̂ł��B
-�@�@�@�@�T���v������������ꍇ�A�y�сA�p�^�[����ϊ�����ꍇ�͎Q�Ƃ���܂���B
-
-�@�@�@Endian SampleEndian;
-�@�@�@�@���������T���v���f�[�^�̃G���f�B�A�����w�肵�܂��B
-�@�@�@�@LittleEndian�܂���BigEndian���w�肵�܂��B
-�@�@�@�@�P��T���v���̕ϊ����̂ݎQ�Ƃ���܂��B
-
-�@�@�����̃f�[�^�𑗂肽���ꍇ�́ASyroData�\���̂�z��ɂ��āA���ꂼ���
-�@�@��L�̓��e���Z�b�g���Ă��������B
-�@�@�����ɕϊ��ł���f�[�^����110�ł��B
+　次項以下で、それぞれの詳細を説明します。
+　呼び出しの手順については、 korg_syro_volcasample_example.c も参考にしてください。
 
 
-3.3 �Ăяo���̎菇�ɂ���(b)
-�@b.�ϊ��J�n�̊֐����Ăт܂��B
+3.3 呼び出しの手順について(a)
+　a.syrodata(変換したいデータ)を準備します。
 
-�@�@�K�v�ȏ����Z�b�g������A�J�n�֐����Ăт܂��B
+　　変換可能なデータは、サンプル及びパターンです。
+　　また、サンプルの消去を指定することもできます。この場合はsyrodataは不要です。
+　　一度に複数のデータを送るためのsyrostreamを生成することも可能です。
 
-�@�@SyroStatus SyroVolcaSample_Start(
-�@�@�@�@SyroHandle *pHandle, 
-�@�@�@�@SyroData *pData, 
-�@�@�@�@int NumOfData,
+　　データを準備したら、SyroData構造体に必要な情報をセットします。
+    　SyroDataType DataType;
+　　　　syrodataの種別を指定します。
+　　    DataType_Sample_Compress 　　: 単一サンプルデータの変換
+　	DataType_Sample_Erase    　　: 単一サンプルデータの消去
+　　　　DataType_Sample_AllCompress　: 全サンプルデータの変換
+　　　　DataType_Pattern         　　: パターンデータの変換
+　　　　が指定可能です。
+　　　　単一サンプルデータを変換する場合、サンプル形式は「16ビット」「モノラル」限定となります。
+　　　　24ビット等のサンプルを変換したい場合は、16ビットに変換してからsyro を呼び出してください。
+　　　　全サンプルデータの変換の場合は、volca sample SDKのalldataにある、拡張子が.alldataファイルのみ指定可能です。
+
+　　　uint8_t *pData;
+	syrodataのポインタを指定します。
+　　　　サンプルを消去する場合は参照されません、
+
+　　　uint32_t Number;
+　　　　サンプル、または、パターンの番号を指定します。
+　　　　サンプルの場合は 0~99を指定可能です。
+　　　　パターンの場合は 0~9を指定可能です。
+　　　　volca sample上のパターン番号から1引いた値を指定してください。
+
+　　　uint32_t Size;
+　　　　syrodataのバイトサイズを指定します。
+　　　　サンプルデータの場合も含め、全てのデータでバイトサイズになります。
+　　　　パターンデータの場合は、0xA40固定値を設定してください。
+　　　　(volcasample_pattern.hをincludeすれば、sizeof(VolcaSample_Pattern_Data)が同値になります)
+　　　　サンプルを消去する場合は参照されません。
+
+　　　uint32_t Quality;
+　　　　サンプルの有効ビット数を8~16で指定します。
+　　　　サンプルデータを転送する場合、ビット数を落とすことで転送時間を短くすることが出来ます。
+　　　　ここで指定する数値に関わらず、準備するサンプルデータは16ビットである必要があります。
+　　　　また、volca sample上でも16ビットで保存するので、保存するサンプル時間には影響はありません。
+　　　　ビット数を落とすメリットは、転送時間を短くすることのみです。
+　　　　サンプルを消去する場合、及び、パターンを変換する場合は参照されません。
+
+　　　Endian SampleEndian;
+　　　　準備したサンプルデータのエンディアンを指定します。
+　　　　LittleEndianまたはBigEndianを指定します。
+　　　　単一サンプルの変換時のみ参照されます。
+
+　　複数のデータを送りたい場合は、SyroData構造体を配列にして、それぞれに
+　　上記の内容をセットしてください。
+　　同時に変換できるデータ数は110個です。
+
+
+3.3 呼び出しの手順について(b)
+　b.変換開始の関数を呼びます。
+
+　　必要な情報をセットしたら、開始関数を呼びます。
+
+　　SyroStatus SyroVolcaSample_Start(
+　　　　SyroHandle *pHandle, 
+　　　　SyroData *pData, 
+　　　　int NumOfData,
 	uint32_t Flags, 
-�@�@�@�@uint32_t *pNumOfSyroFrame
-�@�@);
+　　　　uint32_t *pNumOfSyroFrame
+　　);
 
-�@�@�����̓��e�́A�ȉ��̂悤�ɂȂ�܂��B
-�@�@�@�@SyroHandle *pHandle�@�@�@�@[out] �ȍ~�̕ϊ����s���ۂɎw�肷��n���h�����擾����|�C���^���w�肵�܂��B
-�@�@�@�@SyroData *pData�@�@�@�@�@�@[in]  3.2�ŏ�������SyroData�\����(�܂��͂��̔z��)�ւ̃|�C���^���w�肵�܂��B
-�@�@�@�@int NumOfData�@�@�@�@�@�@�@[in]  ���肽���f�[�^�̐�(=��������syrodata�̐�)���w�肵�܂��B
-	uint32_t Flags �@�@�@�@�@�@[in]  �ϊ����鎞�̃t���O���w�肵�܂��B���݂͎g���Ȃ��̂łO�����Ă����Ă��������B
-�@�@�@�@uint32_t *pNumOfSyroFrame�@[out] �ϊ����SyroData�̃T�C�Y���擾����|�C���^���w�肵�܂��B
-�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@ �@�@�@�P�ʂ́AFrame��(LR�P�g��1)�ł��B
+　　引数の内容は、以下のようになります。
+　　　　SyroHandle *pHandle　　　　[out] 以降の変換を行う際に指定するハンドルを取得するポインタを指定します。
+　　　　SyroData *pData　　　　　　[in]  3.2で準備したSyroData構造体(またはその配列)へのポインタを指定します。
+　　　　int NumOfData　　　　　　　[in]  送りたいデータの数(=準備したsyrodataの数)を指定します。
+	uint32_t Flags 　　　　　　[in]  変換する時のフラグを指定します。現在は使われないので０を入れておいてください。
+　　　　uint32_t *pNumOfSyroFrame　[out] 変換後のSyroDataのサイズを取得するポインタを指定します。
+　　　　　　　　　　　　　　　　　 　　　単位は、Frame数(LR１組で1)です。
 
-�@�@���������ꍇ�́A�߂�l��Status_Success���Ԃ�܂��B
-�@�@�ȍ~�A�ϊ����I��/���f����ꍇ�́A�K��SyroVolcaSample_End�֐����Ă�ł��������B
+　　成功した場合は、戻り値にStatus_Successが返ります。
+　　以降、変換を終了/中断する場合は、必ずSyroVolcaSample_End関数を呼んでください。
 
-�@�@���s�����ꍇ�̃G���[���e�ɂ��ẮA 3.A ���Q�Ƃ��Ă��������B
-
-
-3.3 �Ăяo���̎菇�ɂ���(c)
-�@c.Syro stream�̃T���v���f�[�^��1�t���[�����Â擾���܂��B
-
-�@�@�T���v���擾�֐����Ăт܂��B
-
-�@�@SyroStatus SyroVolcaSample_GetSample(
-�@�@�@�@SyroHandle Handle, 
-�@�@�@�@int16_t *pLeft, 
-�@�@�@�@int16_t *pRight
-�@�@);
-�@�@
-�@�@�����̓��e�́A�ȉ��̂悤�ɂȂ�܂��B
-�@�@�@�@SyroHandle Handle�@�@�@�@�@[in]  �J�n���Ɏ擾�����n���h�����w�肵�܂��B
-�@�@�@�@int16_t *pLeft �@�@�@�@�@�@[out] L�`�����l���o�͗p�̃T���v���f�[�^���擾����|�C���^���w�肵�܂��B
-�@�@�@�@int16_t *pRight�@�@�@�@�@�@[out] R�`�����l���o�͗p�̃T���v���f�[�^���擾����|�C���^���w�肵�܂��B
-
-�@�@�擾�����T���v���́AWAV�t�@�C�����ɏo�͂��邩�A���̂܂܃I�[�f�B�I�f�o�C�X�ɏo�͂��Ă��������B
-
-�@�@���̎擾���A�J�n����pNumOfSyroFrame�ɓ���ꂽ�������J��Ԃ��܂��B
+　　失敗した場合のエラー内容については、 3.A を参照してください。
 
 
-3.4 �Ăяo���̎菇�ɂ���(d)
-�@d.�ϊ��I���̊֐����Ăт܂��B
+3.3 呼び出しの手順について(c)
+　c.Syro streamのサンプルデータを1フレーム分づつ取得します。
 
-�@�@�S�ẴT���v���̎擾������������A�܂��́A�r���Œ��f�������ꍇ�́A
-�@�@
-�@�@SyroStatus SyroVolcaSample_End(SyroHandle Handle)
-�@�@
-�@�@�֐����Ă�ł��������BHandle�ɂ́A�J�n���Ɏ擾�����n���h�����w�肵�܂��B
+　　サンプル取得関数を呼びます。
+
+　　SyroStatus SyroVolcaSample_GetSample(
+　　　　SyroHandle Handle, 
+　　　　int16_t *pLeft, 
+　　　　int16_t *pRight
+　　);
+　　
+　　引数の内容は、以下のようになります。
+　　　　SyroHandle Handle　　　　　[in]  開始時に取得したハンドルを指定します。
+　　　　int16_t *pLeft 　　　　　　[out] Lチャンネル出力用のサンプルデータを取得するポインタを指定します。
+　　　　int16_t *pRight　　　　　　[out] Rチャンネル出力用のサンプルデータを取得するポインタを指定します。
+
+　　取得したサンプルは、WAVファイル等に出力するか、そのままオーディオデバイスに出力してください。
+
+　　この取得を、開始時にpNumOfSyroFrameに得られた数だけ繰り返します。
 
 
-3.A �e�֐��̖߂�l (SyroStatus) �ɂ��āB
+3.4 呼び出しの手順について(d)
+　d.変換終了の関数を呼びます。
 
-�@�@�֐������������ꍇ�́AStatus_Success ���Ԃ�܂����A���炩�̃G���[��
-�@�@�o���ꍇ�́A�ȉ��̒l���Ԃ�܂��B
+　　全てのサンプルの取得が完了したら、または、途中で中断したい場合は、
+　　
+　　SyroStatus SyroVolcaSample_End(SyroHandle Handle)
+　　
+　　関数を呼んでください。Handleには、開始時に取得したハンドルを指定します。
 
-	Status_IllegalDataType�@�@�K��O�̃f�[�^�`�����w�肳��܂����B
-	Status_IllegalData�@�@�@�@�w�肳�ꂽ�f�[�^�̓��e���ُ�ł��B
-	Status_IllegalParameter   �w�肳�ꂽ�f�[�^�̐����ُ�ł��B
-	Status_OutOfRange_Number�@�w�肳�ꂽ�T���v���܂��̓p�^�[���̔ԍ����͈͊O�ł��B
-�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@�@(�T���v��:0~99, �p�^�[��:0~9 �͈̔͂Ŏw��\�ł�)
-	Status_OutOfRange_Quality �w�肳�ꂽ�r�b�g�����͈͊O�ł�(8~16�͈̔͂Ŏw��\�ł�)
-	Status_NotEnoughMemory    ��Ƃ̂��߂̃��������m�ۂł��܂���B
+
+3.A 各関数の戻り値 (SyroStatus) について。
+
+　　関数が成功した場合は、Status_Success が返りますが、何らかのエラーが
+　　出た場合は、以下の値が返ります。
+
+	Status_IllegalDataType　　規定外のデータ形式が指定されました。
+	Status_IllegalData　　　　指定されたデータの内容が異常です。
+	Status_IllegalParameter   指定されたデータの数が異常です。
+	Status_OutOfRange_Number　指定されたサンプルまたはパターンの番号が範囲外です。
+　　　　　　　　　　　　　　　　　(サンプル:0~99, パターン:0~9 の範囲で指定可能です)
+	Status_OutOfRange_Quality 指定されたビット数が範囲外です(8~16の範囲で指定可能です)
+	Status_NotEnoughMemory    作業のためのメモリが確保できません。
 	
-	Status_InvalidHandle�@�@�@�����ȃn���h�����w�肳��܂����B
-	Status_NoData�@�@�@�@�@�@ �f�[�^�擾�̍ہA����SyroStream�f�[�^�ϊ����������Ă��܂��B
+	Status_InvalidHandle　　　無効なハンドルが指定されました。
+	Status_NoData　　　　　　 データ取得の際、既にSyroStreamデータ変換が完了しています。
 
 
 ----------------------------------------------------------------------
-4. Example���g���� syro stream���쐬����B
+4. Exampleを使って syro streamを作成する。
 
-�@example�t�H���_�ɂ́Avolca sample SDK���g�p���āAsyro stream��WAV�`����
-�@�������邽�߂̃T���v���\�[�X������܂��B
+　exampleフォルダには、volca sample SDKを使用して、syro streamをWAV形式で
+　生成するためのサンプルソースがあります。
 
-�@���̃T���v���\�[�X���r���h���邽�߂�VC2010�p�v���W�F�N�g����Makefile�́Aproject�t�H���_���ɂ���܂��B
-�@IDE���Ńv���W�F�N�g���쐬����ꍇ�́Aexample�t�H���_��syro�t�H���_�ɂ���b�\�[�X��
-�@�ǂݍ���ŁA�r���h���Ă��������B
+　このサンプルソースをビルドするためのVC2010用プロジェクト又はMakefileは、projectフォルダ内にあります。
+　IDE等でプロジェクトを作成する場合は、exampleフォルダとsyroフォルダにあるＣソースを
+　読み込んで、ビルドしてください。
 
-�@�������ꂽ���s�t�@�C���̓R���\�[���Ŏg�p���܂����A���̏����ɂ��Đ������܂��B
-�@�R���\�[���ŁA�ȉ��̂悤�ɓ��͂��܂��B
+　生成された実行ファイルはコンソールで使用しますが、その書式について説明します。
+　コンソールで、以下のように入力します。
 
   >korg_syro_volcasample_example "TargetFile.wav" "SourceFile1" "SourceFile2" ......
 
-�@korg_syro_volcasample_example
-�@�@�T���v���̎��s�t�@�C����(���s�t�@�C��)�ł��B
-�@�@���̖��O��SDK���̃\�[�X�t�@�C�����Ɠ���Ɖ��肵�����̂ł����A
-�@�@�r���h���ł̎w��ɂ���Ă͈قȂ閼�O�ɂȂ��Ă��邩���m��܂���B
+　korg_syro_volcasample_example
+　　サンプルの実行ファイル名(実行ファイル)です。
+　　この名前はSDK内のソースファイル名と同一と仮定したものですが、
+　　ビルド環境での指定によっては異なる名前になっているかも知れません。
 
-�@TargetFile.wav
-�@�@���������syrostream�̃t�@�C�������w�肵�܂��B
-�@�@�t�@�C����WAV�`���ŏo�͂���܂��B�g���q(.wav)�܂Ŏw�肵�Ă��������B
-�@�@�t�@�C�����ɃX�y�[�X������ꍇ�́A�K��"" (�_�u���N�H�[�e�[�V����)�Ŋ����Ă��������B
+　TargetFile.wav
+　　生成されるsyrostreamのファイル名を指定します。
+　　ファイルはWAV形式で出力されます。拡張子(.wav)まで指定してください。
+　　ファイル名にスペースを入れる場合は、必ず"" (ダブルクォーテーション)で括ってください。
 
-�@SourceFile
-�@�@�ϊ�������syrodata�̃t�@�C�����w�肵�܂��B
-�@�@�����Ŏ�ނ�ԍ��A�t�@�C�������ꊇ���Ďw�肵�܂��B
-�@�@���̋L�q�ɂ��Đ������܂��B
-�@�@��L���l�A�t�@�C�����ɃX�y�[�X������ꍇ�́A�K��"" (�_�u���N�H�[�e�[�V����)�Ŋ����Ă��������B
+　SourceFile
+　　変換したいsyrodataのファイルを指定します。
+　　ここで種類や番号、ファイル名を一括して指定します。
+　　その記述について説明します。
+　　上記同様、ファイル名にスペースがある場合は、必ず"" (ダブルクォーテーション)で括ってください。
 
-�@�@"x17c12:filename"
+　　"x17c12:filename"
      TT~TT~T~~~~T~~~
-     || || |    +------- �ϊ�����t�@�C�������w�肵�܂��B
- �@�@|| || |             ��ʂɏ���(e)���w�肵���ꍇ�͕K�v����܂���B
-     || || +------------ �t�@�C�����Ƃ̋�؂�Ƃ���:���L�q���Ă������� �B
-     || ||               �t�@�C�������s�v�ȏꍇ�ł�����͕K�v�ł��B
-     || |+-------------- �T���v���ϊ����݂̂̋L�q�ł��B���k����r�b�g����8-16�Ŏw�肵�Ă��������B
-     || |                �ȗ������ꍇ��16�r�b�g�ɂȂ�܂��B
-     || +--------------- �T���v���ϊ����݂̂̋L�q�ɂȂ�܂��B
-     ||                  �]�����̈��k���Ӗ����܂����A���k����f�����b�g�͂Ȃ��̂Ō������Ă��������B
+     || || |    +------- 変換するファイル名を指定します。
+ 　　|| || |             種別に消去(e)を指定した場合は必要ありません。
+     || || +------------ ファイル名との区切りとして:を記述してください 。
+     || ||               ファイル名が不要な場合でもこれは必要です。
+     || |+-------------- サンプル変換時のみの記述です。圧縮するビット数を8-16で指定してください。
+     || |                省略した場合は16ビットになります。
+     || +--------------- サンプル変換時のみの記述になります。
+     ||                  転送時の圧縮を意味しますが、圧縮するデメリットはないので原則つけてください。
      ||
-     |+----------------- �T���v���ԍ��A�܂��́A�p�^�[���ԍ����w�肵�܂��B
-     |                   �T���v���̏ꍇ��0~99, �p�^�[���̏ꍇ��1~10���w�肵�܂��B
-     |                   �S�T���v���̕ϊ����͎w�肵�Ȃ��ł��������B
-     +------------------ ���M����t�@�C���̎�ނ��w�肵�܂��B
+     |+----------------- サンプル番号、または、パターン番号を指定します。
+     |                   サンプルの場合は0~99, パターンの場合は1~10を指定します。
+     |                   全サンプルの変換時は指定しないでください。
+     +------------------ 送信するファイルの種類を指定します。
                          s:sample
                          e:erase sample
                          p:pattern
                          a:all sample
-�@�@�@�@�@�@�@�@�@�@�@�@�����ꂼ��Ӗ����܂��B
-                        sample���w�肷��ꍇ�u16�r�b�g�܂���24�r�b�g�v�u���m�����܂��̓X�e���I�v��
-�@�@�@�@�@�@�@�@�@�@�@�@WAV�t�@�C���ɑΉ����Ă��܂��B
+　　　　　　　　　　　　をそれぞれ意味します。
+                        sampleを指定する場合「16ビットまたは24ビット」「モノラルまたはステレオ」の
+　　　　　　　　　　　　WAVファイルに対応しています。
 
-�@�@(�L�q��)
-�@�@�@"s20c:kick.wav"     �T���v���t�@�C��kick.wav���Avolca sample�{�̂�20�Ԃɓ]�����邽�߂�
-�@�@�@�@�@�@�@�@�@�@�@�@�@SyroStrem�ɕϊ����܂��B
-�@�@�@"s57c12:snare.wav"�@�T���v���t�@�C��snare.wav���Avolca sample�{�̂�57�Ԃɓ]�����邽�߂�
-�@�@�@�@�@�@�@�@�@�@�@�@�@SyroStrem�ɕϊ����܂��B�܂��A12Bit�ɗ��Ƃ��ē]�����Ԃ�Z�����܂�
-�@�@�@"e27:"              volca sample�{�̂�27�Ԃ̃T���v�����폜����SyroStream�𐶐����܂��B
-�@�@�@"p01:pattern1.dat"  �p�^�[���f�[�^ pattern1.dat ���Avolca sample�{�̂̂P�Ԃɓ]�����邽�߂�
-�@�@�@�@�@�@�@�@�@�@�@�@�@SyroStrem�ɕϊ����܂��B
-�@�@�@"ac:volcasample_preset.alldata"  �S�T���v���f�[�^ volcasample_preset.alldata ��]�����邽�߂�
-�@�@�@�@�@�@�@�@�@�@�@�@�@SyroStrema�ɕϊ����܂��B
+　　(記述例)
+　　　"s20c:kick.wav"     サンプルファイルkick.wavを、volca sample本体の20番に転送するための
+　　　　　　　　　　　　　SyroStremに変換します。
+　　　"s57c12:snare.wav"　サンプルファイルsnare.wavを、volca sample本体の57番に転送するための
+　　　　　　　　　　　　　SyroStremに変換します。また、12Bitに落として転送時間を短くします
+　　　"e27:"              volca sample本体の27番のサンプルを削除するSyroStreamを生成します。
+　　　"p01:pattern1.dat"  パターンデータ pattern1.dat を、volca sample本体の１番に転送するための
+　　　　　　　　　　　　　SyroStremに変換します。
+　　　"ac:volcasample_preset.alldata"  全サンプルデータ volcasample_preset.alldata を転送するための
+　　　　　　　　　　　　　SyroStremaに変換します。
 
-�@�@�����̎w��𕡐����ׂď������Ƃ��ł��܂��B
+　　これらの指定を複数並べて書くこともできます。
 
 ----------------------------------------------------------------------
-5. �p�^�[���f�[�^�̍\��
+5. パターンデータの構造
 
-�@SYRO for volca sample�ł̓p�^�[���f�[�^�����邱�Ƃ��o���܂����A
-�@volca sample����p�^�[���f�[�^����M������@���Ȃ����߁A���M����
-�@�p�^�[���f�[�^���쐬����K�v������܂��B
-�@�����ł́A�p�^�[���f�[�^�̍\���ɂ��ĊȒP�ɐ������܂��B
+　SYRO for volca sampleではパターンデータも送ることが出来ますが、
+　volca sampleからパターンデータを受信する方法がないため、送信する
+　パターンデータを作成する必要があります。
+　ここでは、パターンデータの構造について簡単に説明します。
 
-�@�p�^�[���f�[�^�̍\���́Avolcasample_pattern.h�t�@�C�����́A
-�@�\����VolcaSample_Pattern_Data �Œ�`����Ă��܂��A
-�@�ȉ��ɁA���ꂼ��̃����o�̓��e��������܂��B
-�@�p�^�[���f�[�^�ւ�16Bit�y��32Bit�ϐ��̊i�[�́ALittleEndian�`���ōs���Ă��������B
-�@�����o�����AReserved �܂��� Padding �Ƃ�����͈̂Ӗ��������܂���̂Ő������ȗ����܂��B
+　パターンデータの構造は、volcasample_pattern.hファイル内の、
+　構造体VolcaSample_Pattern_Data で定義されています、
+　以下に、それぞれのメンバの内容を説明します。
+　パターンデータへの16Bit及び32Bit変数の格納は、LittleEndian形式で行ってください。
+　メンバ名が、Reserved または Padding とあるものは意味を持ちませんので説明を省略します。
 
-�@uint32_t Header;
-�@uint16_t DevCode;
-�@�@volca sample�̃p�^�[���ł��邱�Ƃ����ʂ��邽�߂̃t�B�[���h�ł��B
-�@�@���ꂼ��A0x54535450�A0x33b8��ݒ肵�Ă��������B
-�@�@(VOLCASAMPLE_PATTERN_HEADER�AVOLCASAMPLE_PATTERN_DEVCODE�Œ�`����Ă��܂�)
+　uint32_t Header;
+　uint16_t DevCode;
+　　volca sampleのパターンであることを識別するためのフィールドです。
+　　それぞれ、0x54535450、0x33b8を設定してください。
+　　(VOLCASAMPLE_PATTERN_HEADER、VOLCASAMPLE_PATTERN_DEVCODEで定義されています)
 
-�@uint16_t ActiveStep;
-�@�@Active Step ��On/Off��bitmap�Ŏ����܂��B
-�@�@�X�e�b�v 1~16��Bit0~15�ɑΉ����Ă���A0=Off,1=On�ɂȂ�܂��B
-�@�@������Ԃł�0xffff(�S��ON)�ɂ��܂��B
-�@�@���i�d�l��A0��ݒ肷�邱�Ƃ͂ł��܂���B
+　uint16_t ActiveStep;
+　　Active Step のOn/Offをbitmapで示します。
+　　ステップ 1~16がBit0~15に対応しており、0=Off,1=Onになります。
+　　初期状態では0xffff(全部ON)にします。
+　　製品仕様上、0を設定することはできません。
 
-�@VolcaSample_Part_Data Part[VOLCASAMPLE_NUM_OF_PART];
-�@�@�e�p�[�g�̃f�[�^�ŁA�p�[�g1~10�� Part[0]~Part[9]�ɑΉ����܂��B
-�@�@���e�͌�q���܂��B
+　VolcaSample_Part_Data Part[VOLCASAMPLE_NUM_OF_PART];
+　　各パートのデータで、パート1~10が Part[0]~Part[9]に対応します。
+　　内容は後述します。
 
-�@uint32_t Footer;�@
-�@�@volca sample�̃p�^�[���ł��邱�Ƃ����ʂ��邽�߂̃t�B�[���h�ł��B
-�@�@0x44455450 ��ݒ肵�Ă��������B
-�@�@(VOLCASAMPLE_PATTERN_FOOTER �Œ�`����Ă��܂�)
+　uint32_t Footer;　
+　　volca sampleのパターンであることを識別するためのフィールドです。
+　　0x44455450 を設定してください。
+　　(VOLCASAMPLE_PATTERN_FOOTER で定義されています)
 
 
-�@�e�p�[�g�̃f�[�^�́A VolcaSample_Part_Data�\���̂Œ�`����Ă��܂��B
-�@�ȉ��ɁA���ꂼ��̃����o�̓��e��������܂��B
+　各パートのデータは、 VolcaSample_Part_Data構造体で定義されています。
+　以下に、それぞれのメンバの内容を説明します。
 
-�@uint16_t SampleNum;
-�@�@�p�[�g�Ŏg�p����T���v���ԍ����w�肵�܂��B
-�@�@0 ~ 99���w��\�ł��B
+　uint16_t SampleNum;
+　　パートで使用するサンプル番号を指定します。
+　　0 ~ 99が指定可能です。
 
-�@uint16_t StepOn;�@
-�@�@�e�X�e�b�v��On/Off��bitmap�Ŏ����܂��B
-�@�@�X�e�b�v 1~16��Bit0~15�ɑΉ����Ă���A0=Off,1=On�ɂȂ�܂��B
-�@�@
-�@uint16_t Accent;
-�@�@���̃p�����[�^��volca sample�ő���ł��Ȃ��̂ŁA0��ݒ肵�Ă��������B
+　uint16_t StepOn;　
+　　各ステップのOn/Offをbitmapで示します。
+　　ステップ 1~16がBit0~15に対応しており、0=Off,1=Onになります。
+　　
+　uint16_t Accent;
+　　このパラメータはvolca sampleで操作できないので、0を設定してください。
 
-�@uint8_t Level;�@
-�@�@���̃p�����[�^��volca sample�ő���ł��܂���B�ő������127��ݒ肵�Ă��������B
+　uint8_t Level;　
+　　このパラメータはvolca sampleで操作できません。最大を示す127を設定してください。
 
-�@uint8_t Param[VOLCASAMPLE_NUM_OF_PARAM];
-�@�@�m�u�p�����[�^�ʒu�̏�Ԃ������܂��B
-�@�@�z��̔ԍ��ƃp�����[�^�̊֌W���͈ȉ��̂悤�ɂȂ�܂�(�J�b�R���͏����l�ł�)
-�@�@0 : LEVEL           0~127 (127)
+　uint8_t Param[VOLCASAMPLE_NUM_OF_PARAM];
+　　ノブパラメータ位置の状態を示します。
+　　配列の番号とパラメータの関係性は以下のようになります(カッコ内は初期値です)
+　　0 : LEVEL           0~127 (127)
     1 : PAN             1~127, 64=Center (64)
-    2 : SPEED           40~88, 64=Center (64) *Func+Speed�m�u���쎞=Note�P��
-                        129~255, 192=Center   *Speed�m�u���쎞
+    2 : SPEED           40~88, 64=Center (64) *Func+Speedノブ操作時=Note単位
+                        129~255, 192=Center   *Speedノブ操作時
     3 : AMP EG ATTACK   0~127 (0)
     4 : AMP EG DECAY    0~127 (127)
     5 : PITCH EG INT    1~127, 64=Center (64)
@@ -329,117 +329,117 @@
     9 : LENGTH          0~127 (127)
     10: HI CUT          0~127 (127)
 
-�@�@�����̔ԍ��́AVOLCASAMPLE_PARAM_xxxx�ł���`����Ă��܂��B
+　　これらの番号は、VOLCASAMPLE_PARAM_xxxxでも定義されています。
 
-�@uint8_t FuncMemoryPart;
-�@�@�p�[�g�̊e��On/Off�ݒ��bitmap�Ŏ����܂��B
-�@�@�ebit�ƃp�����[�^�̊֌W���͈ȉ��̂悤�ɂȂ�܂��B
-�@�@bit0 : Motion On/Off
-�@�@bit1 : Loop On/Off
-�@�@bit2 : Reverb On/Off
-�@�@bit3 : Reverse On/Off
-�@�@bit4 : Mute On/Off (1=On���������Ԃł�)
+　uint8_t FuncMemoryPart;
+　　パートの各種On/Off設定をbitmapで示します。
+　　各bitとパラメータの関係性は以下のようになります。
+　　bit0 : Motion On/Off
+　　bit1 : Loop On/Off
+　　bit2 : Reverb On/Off
+　　bit3 : Reverse On/Off
+　　bit4 : Mute On/Off (1=Onが音が鳴る状態です)
 
-�@�@�����̔ԍ��́AVOLCASAMPLE_FUNC_BIT_xxxx�ł���`����Ă��܂��B
+　　これらの番号は、VOLCASAMPLE_FUNC_BIT_xxxxでも定義されています。
 
-�@uint8_t Motion[VOLCASAMPLE_NUM_OF_MOTION][VOLCASAMPLE_NUM_OF_STEP];
-�@�@���[�V�����f�[�^�������܂��B
-�@�@�P�߂�[]�Ń��[�V�����f�[�^�̎�ށA�Q�߂�[]�ŃX�e�b�v�ԍ��������܂��B
-�@�@�P�߂�[]�̔ԍ��ƃ��[�V�����̎�ނ̊֌W���͈ȉ��̂悤�ɂȂ�܂��B
+　uint8_t Motion[VOLCASAMPLE_NUM_OF_MOTION][VOLCASAMPLE_NUM_OF_STEP];
+　　モーションデータを示します。
+　　１つめの[]でモーションデータの種類、２つめの[]でステップ番号を示します。
+　　１つめの[]の番号とモーションの種類の関係性は以下のようになります。
 
-�@�@0 : LEVEL (�n�_)
-�@�@1 : LEVEL (�I�_)
-�@�@2 : PAN (�n�_)
-�@�@3 : PAN (�I�_)
-�@�@4 : SPEED (�n�_)
-�@�@5 : SPEED (�I�_)
-      LEVEL,PAN,SPEED�̂R�̃p�����[�^�ɂ��ẮA�P�X�e�b�v����
-�@�@�@�n�_�E�I�_�̂Q�J���̒l���L�^���Ă���A�X�e�b�v�Đ����ɂȂ߂炩��
-�@�@�@�Ȃ�悤��Ԃ��铮�������Ă��܂��B
-�@�@6 : AMP EG ATTACK
-�@�@7 : AMP EG DECAY
-�@�@8 : PITCH EG INT
-�@�@9 : PITCH EG ATTACK
-�@�@10: PITCH EG DECAY
-�@�@11: SATRT POINT
-�@�@12: LENGTH
-�@�@13: HI CUT
+　　0 : LEVEL (始点)
+　　1 : LEVEL (終点)
+　　2 : PAN (始点)
+　　3 : PAN (終点)
+　　4 : SPEED (始点)
+　　5 : SPEED (終点)
+      LEVEL,PAN,SPEEDの３つのパラメータについては、１ステップ内に
+　　　始点・終点の２カ所の値を記録してあり、ステップ再生時になめらかに
+　　　なるよう補間する動きをしています。
+　　6 : AMP EG ATTACK
+　　7 : AMP EG DECAY
+　　8 : PITCH EG INT
+　　9 : PITCH EG ATTACK
+　　10: PITCH EG DECAY
+　　11: SATRT POINT
+　　12: LENGTH
+　　13: HI CUT
 
-�@�@���[�V�����Ƃ��Đݒ肷��l�́A
-�@�@�ESPEED�ȊO  �m�u�p�����[�^+128
-�@�@�ESPEED      �m�u�p�����[�^���̂܂�
-�@�@�ɂȂ�܂��B������̏ꍇ���A0=���[�V�����f�[�^�Ȃ��A�̈Ӗ��ɂȂ�܂��B
+　　モーションとして設定する値は、
+　　・SPEED以外  ノブパラメータ+128
+　　・SPEED      ノブパラメータそのまま
+　　になります。いずれの場合も、0=モーションデータなし、の意味になります。
 
-�@volcasample_pattern.c�ɂ́A�p�^�[���f�[�^������������֐��A
-�@void VolcaSample_Pattern_Init(VolcaSample_Pattern_Data *pattern_data)
-�@��p�ӂ��Ă��܂��B
-�@��L�p�����[�^�̎��ʃf�[�^�̐ݒ��e�p�����[�^�̏����l�ݒ���s���܂��̂�
-�@�K�v�ɉ����ČĂяo���Ă��������B
+　volcasample_pattern.cには、パターンデータを初期化する関数、
+　void VolcaSample_Pattern_Init(VolcaSample_Pattern_Data *pattern_data)
+　を用意しています。
+　上記パラメータの識別データの設定や各パラメータの初期値設定を行いますので
+　必要に応じて呼び出してください。
 
 
 ----------------------------------------------------------------------
-6. volca sample�ւ̓]�����@�ɂ��āB
+6. volca sampleへの転送方法について。
 
-�@volca sample�̃V�X�e���o�[�W������ Ver 1.22 �ȍ~�ɃA�b�v�f�[�g���Ďg���Ă��������B
-�@�A�b�v�f�[�^�[�ɂ��ẮA�R���O�E�z�[���y�[�W
-�@http://www.korg.com/
-�@���Q�Ƃ��Ă��������B
-�@�V�X�e���o�[�W�����́A[REC]�{�^���������Ȃ���N�����邱�ƂŊm�F�ł��܂��B
-�@[REC]�{�^���������Ȃ���N������ƁA�ȉ��̕\�����J��Ԃ��܂��B
-�@ x.yy �� �V�X�e���o�[�W�����ł��B
-  Px.yy �� �p�l���o�[�W�����ł��B
-  Sx.yy �� �T���v���o�[�W�����ł��B
+　volca sampleのシステムバージョンは Ver 1.22 以降にアップデートして使ってください。
+　アップデーターについては、コルグ・ホームページ
+　http://www.korg.com/
+　を参照してください。
+　システムバージョンは、[REC]ボタンを押しながら起動することで確認できます。
+　[REC]ボタンを押しながら起動すると、以下の表示を繰り返します。
+　 x.yy → システムバージョンです。
+  Px.yy → パネルバージョンです。
+  Sx.yy → サンプルバージョンです。
 
-   x.yy�̕����́A�o�[�W�����ԍ����\������܂�
+   x.yyの部分は、バージョン番号が表示されます
 
-�@���̂����A�V�X�e���o�[�W������1.00�ƕ\������Ă���ꍇ�́A
-�@�A�b�v�f�[�g���K�v�ɂȂ�܂��B
-�@�p�l���y�уT���v���̃o�[�W������Syro���g����ł͊֌W����܂���B
-
-
-�@PC���̍Đ��@��Audio Out�[�q�ƁAvolca sample��SYNC IN�[�q���X�e���I�P�[�u����
-�@�ڑ����Asyro�Ő������ꂽ�I�[�f�B�I�f�[�^���Đ����܂��B
-�@���̎��A�Đ��@���̉��ʂ͍ő�ɂ��Ă��������B
-
-�@!!����!!
-�@��΂�Syro�̃I�[�f�B�I�f�[�^���X�s�[�J�[�Ŗ炵����w�b�h�z���ŕ������肵�Ȃ��ł��������B
-�@�@��̌̏�⎨�����߂錴���ɂȂ�܂��B
-
-�@volca sample�͐M�������o������A�f�B�X�v���C�� [dAtA] [���] �����݂�
-�@�\�����A��M���[�h�ɐ؂�ւ��܂��B
-�@��M������������A [End ]�ƕ\������܂��B
-
-�@�G���[���o���ꍇ�́A[Err ] [���] �����݂ɕ\�����A�m�u���_�ł��܂��B
-
-�@[End ]�܂���[Err ]���\������Ă����ԂŁA[FUNC]�������ƁA�ʏ퓮��ɖ߂�܂��B
+　このうち、システムバージョンが1.00と表示されている場合は、
+　アップデートが必要になります。
+　パネル及びサンプルのバージョンはSyroを使う上では関係ありません。
 
 
-6.1 ��M���̃f�[�^�\���ɂ��āB
-�@��M����[dAtA][���]�����݂ɕ\�����܂����A���̎�ʂɂ��ė�L���܂��B
+　PC等の再生機のAudio Out端子と、volca sampleのSYNC IN端子をステレオケーブルで
+　接続し、syroで生成されたオーディオデータを再生します。
+　この時、再生機側の音量は最大にしてください。
 
-�@S.000 ~ S.099  : �T���v��0~99����M���ł��B
-�@P.001 ~ P.010  : �p�^�[��1~10����M���ł��B
-�@E.000 ~ E.099  : �T���v��0~99���������ł��B
-�@ALL            : �S�T���v������M���ł��B
+　!!注意!!
+　絶対にSyroのオーディオデータをスピーカーで鳴らしたりヘッドホンで聞いたりしないでください。
+　機器の故障や耳を傷める原因になります。
 
-�@�p�^�[���̎�M�́Avolca sample�̕ۑ��������ɑ΂��čs���܂��B
-�@�p�^�[������M������A���̃p�^�[����{�̑���œǂݍ���ł��������B
-�@�T���v���]�����ɃG���[���o���ꍇ�A���̔ԍ��̃T���v���������Ă��܂����Ƃ�����܂��B
-�@�܂��A�S�T���v���̓]�����ɃG���[���o���ꍇ�A�T���v�����P���Ȃ���ԂɂȂ�܂��B
-�@�����̏ꍇ�́A�ēx�T���v����]�����Ȃ����Ă��������B
+　volca sampleは信号を検出したら、ディスプレイに [dAtA] [種別] を交互に
+　表示し、受信モードに切り替わります。
+　受信が完了したら、 [End ]と表示されます。
 
-6.2 �G���[�\���ɂ��āB
-�@�G���[���o���ꍇ�́A�ȉ��̓_�ɂ��Ċm�F���Ă��������B
-�@�E�Đ��@��volca sample�̐ڑ��͐������s���Ă��邩�H
-�@�@�P�[�u���͕K���X�e���I�P�[�u�����g���Ă��������B
-�@�E�Đ��@�̉��ʂ͍ő�ɂȂ��Ă��邩�H
-�@�E[Err ][tyPE] ���o��ꍇ�́Avolca sample�̃V�X�e���o�[�W�������ŐV���ǂ����m�F���Ă��������B
-�@�E[Err ][FuLL] ���o��ꍇ�́Avolca sample�̃T���v���������̋󂫂��s�����Ă��܂��B
-�@�@���̏ꍇ�́Bvolca sample�̑���ŃT���v�����폜���Ă��������B
-�@�E[Err ][btLo] ���o��ꍇ�́A�d�r�̗e�ʂ��m�F���Ă��������B
+　エラーが出た場合は、[Err ] [種別] を交互に表示し、ノブが点滅します。
 
-�@���̑��A����̃T���v���ŃG���[���J��Ԃ����̏ꍇ�́A
-�@https://github.com/korginc/volcasample/issues
-�@�Ŗ₢���킹�Ē������A���l�̎�����������Ă݂Ă��������B
+　[End ]または[Err ]が表示されている状態で、[FUNC]を押すと、通常動作に戻ります。
+
+
+6.1 受信中のデータ表示について。
+　受信中は[dAtA][種別]を交互に表示しますが、この種別について列記します。
+
+　S.000 ~ S.099  : サンプル0~99を受信中です。
+　P.001 ~ P.010  : パターン1~10を受信中です。
+　E.000 ~ E.099  : サンプル0~99を消去中です。
+　ALL            : 全サンプルを受信中です。
+
+　パターンの受信は、volca sampleの保存メモリに対して行われます。
+　パターンを受信したら、そのパターンを本体操作で読み込んでください。
+　サンプル転送中にエラーが出た場合、その番号のサンプルが消えてしまうことがあります。
+　また、全サンプルの転送中にエラーが出た場合、サンプルが１つもない状態になります。
+　これらの場合は、再度サンプルを転送しなおしてください。
+
+6.2 エラー表示について。
+　エラーが出た場合は、以下の点について確認してください。
+　・再生機とvolca sampleの接続は正しく行われているか？
+　　ケーブルは必ずステレオケーブルを使ってください。
+　・再生機の音量は最大になっているか？
+　・[Err ][tyPE] が出る場合は、volca sampleのシステムバージョンが最新かどうか確認してください。
+　・[Err ][FuLL] が出る場合は、volca sampleのサンプルメモリの空きが不足しています。
+　　この場合は。volca sampleの操作でサンプルを削除してください。
+　・[Err ][btLo] が出る場合は、電池の容量を確認してください。
+
+　その他、特定のサンプルでエラーを繰り返す等の場合は、
+　https://github.com/korginc/volcasample/issues
+　で問い合わせて頂くか、同様の質問を検索してみてください。
 
 
