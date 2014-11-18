@@ -191,6 +191,8 @@ static bool setup_file_sample(char *filename, SyroData *syro_data)
 	uint8_t *src;
 	uint32_t wav_pos, size, chunk_size;
 	uint32_t wav_fs;
+	uint16_t num_of_ch, sample_byte;
+	uint32_t num_of_frame;
 	
 	src = read_file(filename, &size);
 	if (!src) {
@@ -226,18 +228,25 @@ static bool setup_file_sample(char *filename, SyroData *syro_data)
 		return false;
 	}
 
-	if (get_16Bit_value(src+wav_pos+8+WAVFMT_POS_CHANNEL) != 1) {
-		printf ("wav file error, channel must be 1.\n");
+	num_of_ch = get_16Bit_value(src+wav_pos+8+WAVFMT_POS_CHANNEL);
+	if ((num_of_ch != 1) && (num_of_ch != 2)) {
+		printf ("wav file error, channel must be 1 or 2.\n");
 		free(src);
 		return false;
 	}
 	
-	if (get_16Bit_value(src+wav_pos+8+WAVFMT_POS_BIT) != 16) {
-		printf ("wav file error, bit must be 16.\n");
-		free(src);
-		return false;
+	{
+		uint16_t num_of_bit;
+		
+		num_of_bit = get_16Bit_value(src+wav_pos+8+WAVFMT_POS_BIT);
+		if ((num_of_bit != 16) && (num_of_bit != 24)) {
+			printf ("wav file error, bit must be 16 or 24.\n");
+			free(src);
+			return false;
+		}
+		
+		sample_byte = (num_of_bit / 8);
 	}
-	
 	wav_fs = get_32Bit_value(src+wav_pos+8+WAVFMT_POS_FS);
 	
 	//------- search 'data' -------*/
@@ -261,6 +270,8 @@ static bool setup_file_sample(char *filename, SyroData *syro_data)
 	}
 	
 	//------- setup  -------*/
+	num_of_frame = chunk_size  / (num_of_ch * sample_byte);
+	chunk_size = (num_of_frame * 2);
 	syro_data->pData = malloc(chunk_size);
 	if (!syro_data->pData) {
 		printf ("not enough memory to setup file. \n");
@@ -268,7 +279,35 @@ static bool setup_file_sample(char *filename, SyroData *syro_data)
 		return false;
 	}
 	
-	memcpy(syro_data->pData, (src + wav_pos + 8), chunk_size);
+	//------- convert to 1ch, 16Bit  -------*/
+	{
+		uint8_t *poss;
+		int16_t *posd;
+		int32_t dat, datf;
+		uint16_t ch, sbyte;
+		
+		poss = (src + wav_pos + 8);
+		posd = (int16_t *)syro_data->pData;
+		
+		for (;;) {
+			datf = 0;
+			for (ch=0; ch<num_of_ch; ch++) {
+				dat = ((int8_t *)poss)[sample_byte - 1];
+				for (sbyte=1; sbyte<sample_byte; sbyte++) {
+					dat <<= 8;
+					dat |= poss[sample_byte-1-sbyte];
+				}
+				poss += sample_byte;
+				datf += dat;
+			}
+			datf /= num_of_ch;
+			*posd++ = (int16_t)datf;
+			if (!(--num_of_frame)) {
+				break;
+			}
+		}
+	}
+	
 	syro_data->Size = chunk_size;
 	syro_data->Fs = wav_fs;
 	syro_data->SampleEndian = LittleEndian;
