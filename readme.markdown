@@ -28,10 +28,10 @@ add the following to call syro functions.
 
 ### 3.2 outline of usage
 
-a. prepare the data to be converted
-b. call the conversion start function
-c. process syro data for each frame
-d. call the conversion end function
+1. prepare the data to be converted  
+2. call the conversion start function  
+3. process syrodata for each frame  
+4. call the conversion end function  
 
 Each step is explained in detail below.  
 Please refer to korg\_syro\_volcasample\_example.c for a working example.
@@ -377,18 +377,19 @@ If an error occurs during all transfer, all sample memory will be deleted.
 
 if you get an error try the following:
 
-- is your volca sample firmware up to date? <a href="http://www.korg.com/us/products/dj/volca_sample/download.php" target="_blank">get latest here</a>.
+- is your volca sample firmware up to date? <a href="http://www.korg.com/products/dj/volca_sample/download.php" target="_blank">get latest here</a>.
 - is the audio device and volca sample properly connected with a stereo cable?
 - is the output level high enough?
 - are there any other sounds interrupting? (message alerts??)
 - are you sure all audio EQ/effects/optimizers are turned off?
 - if you get [Err][tyPE] check your volca sample system is up to date
 - if you get [Err][FuLL] free some memory by deleting samples  
-    this can be done on your volca sample by using the delete menu (refer to the manual in the <a href="http://www.korg.com/us/products/dj/volca_sample/download.php" target="_blank">ver.1.22 update package</a>)  
+    this can be done on your volca sample by using the delete menu (refer to the manual in the <a href="http://www.korg.com/products/dj/volca_sample/download.php" target="_blank">ver.1.22 update package</a>)  
     or by preparing and using sample delete syro streams.
 - if you get [Err][btLo] change your batteries or use a power adapter.
 
 If you keep having problems with certain sample data, please let us know <a href="https://github.com/korginc/volcasample/issues" target="_blank">here</a>.
+
 
 
 
