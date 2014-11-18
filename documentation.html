@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title> - volca sample SDK</title>
+  <meta name="author" content="KORG Inc.">
+
+  
+  <meta name="description" content="1. Intro This section will help you get to grips with the KORG SYRO library. It shows how the functions can be used to generate syrostream (the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://korginc.github.io//github/documentation.html">
+  <link href="/volcasample/favicon.png" rel="icon">
+  <link href="/volcasample/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/volcasample/atom.xml" rel="alternate" title="volca sample SDK" type="application/atom+xml">
+  <script src="/volcasample/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/volcasample/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,700,400' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-54884044-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/volcasample/">volca sample SDK</a></h1>
+  
+    <h2>a sample and sequence encoding library for volca sample</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/volcasample/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:korginc.github.io//github" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/volcasample/index.html">Home</a></li>
+  <li><a href="/volcasample/tryit.html">Try It!</a></li>
+  <li><a href="/volcasample/gallery.html">Gallery</a></li>
+  <li><a href="/volcasample/documentation.html">Documentation</a></li>
+  <li><a href="/volcasample/source.html">Source</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article role="article">
+  
+  <header>
+    <h1 class="entry-title"></h1>
+    
+  </header>
+  
+  <h2>1. Intro</h2>
+
+<p>This section will help you get to grips with the KORG SYRO library. It shows how the functions can be used to generate syrostream (the audio signal that the volca sample understands) from syrodata (the raw data you want to send - sample audio or sequence patterns).</p>
+
+<p>Good luck and have fun!</p>
+
+<hr />
+
+<h2>2. what&rsquo;s inside the SDK?</h2>
+
+<p><strong>syro :</strong> syro itself. It generates syrostream from syrodata.<br/>
+<strong>example :</strong> examples using syro that creates a syro wav file from an audio sample<br/>
+<strong>project :</strong> contains the project files to build the examples.<br/>
+there is a visual studio 2010 project file and Makefile for gcc or clang.<br/>
+<strong>pattern :</strong> definitions for pattern data structure and functions to initialize pattern data.<br/>
+<strong>alldata :</strong> data for restoring factory preset samples or for deleting all sample data.</p>
+
+<hr />
+
+<h2>3. how to use the SDK to generate syrostream from syrodata</h2>
+
+<h3>3.1 essential source files</h3>
+
+<p>korg_syro_volcasample.c<br/>
+korg_syro_func.c<br/>
+korg_syro_comp.c</p>
+
+<p>add the following to call syro functions.</p>
+
+<pre><code>#include "korg_syro_volcasample.h"
+</code></pre>
+
+<h3>3.2 outline of usage</h3>
+
+<ol type="a">
+<li>prepare the data to be converted</li>
+<li>call the conversion start function</li>
+<li>process syro data for each frame</li>
+<li>call the conversion end function</li>
+</ol>
+
+
+<p>Each step is explained in detail below.<br/>
+Please refer to korg_syro_volcasample_example.c for a working example.</p>
+
+<h3>3.3a preparing the data to be converted</h3>
+
+<p>Both sample and sequence data can be converted.<br/>
+You can also send a sample delete command.<br/>
+It is possible to send multiple data in one operation.</p>
+
+<p>Once you have the data you want to convert, set the necessary information in the SyroData structure.</p>
+
+<pre><code>SyroDataType DataType;
+specifies any of the following data type to be converted.  
+DataType_Sample_Compress        : convert single audio sample  
+DataType_Sample_Erase           : delete single sample slot on volca sample  
+DataType_Sample_AllCompress     : convert all sample data  
+DataType_Pattern                : convert sequence pattern  
+
+uint8_t *pData;
+pointer which specifies the data to be converted.
+not used when deleting samples.
+
+uint32_t Number;
+the sample (0-99) or sequence pattern (0-9) number.
+
+uint32_t Size;
+size of data to be converted (in bytes).
+set it to sizeof(VolcaSample_Pattern_Data) when converting sequence data.
+not used when deleting samples.
+
+uint32_t Quality;
+The conversion bit depth. It can be set to 8-16.
+not used when deleting samples.
+
+Endian SampleEndian;
+set to LittleEndian or BigEndian to suite your sample data.
+only used when converting single samples.
+</code></pre>
+
+<p>Only 16bit monaural audio samples are supported, so convert as necessary beforehand.<br/>
+Only files with extension .alldata contained in folder &lsquo;alldata&rsquo; can be used with all data conversion.</p>
+
+<p>Lower bit depths will increase transfer speed at the cost of audio resolution.<br/>
+The prepared audio <strong>must</strong> be 16bit regardless of this setting.<br/>
+The sample is always stored at 16bit in the volca sample regardless of this value, so memory usage is not affected by this setting.</p>
+
+<p>To send multiple data, create an array of SyroData structures and set the above information for each one. A maximum of 110 SyroData structures can be transferred in one operation.</p>
+
+<h3>3.3b calling the conversion start function</h3>
+
+<pre><code>SyroStatus SyroVolcaSample_Start(
+    SyroHandle *pHandle, 
+    SyroData *pData, 
+    int NumOfData,
+        uint32_t Flags,
+    uint32_t *pNumOfSyroFrame
+);
+</code></pre>
+
+<p>The arguments are as follows:</p>
+
+<pre><code>SyroHandle *pHandle         [out]pointer of the handle(resource for proceeding conversions) accquired after calling this function.
+SyroData *pData             [in]pointer of the SyroData structure prepared in 3.2
+int NumOfData               [in]the number of data to be converted (number of SyroData that has been prepared)
+uint32_t Flags              [in]a flag to be used during conversion. It is currently not used so set to 0.
+uint32_t *pNumOfSyroFrame   [out]the pointer of the value which stores the size of the SyroData after conversion
+                                Units in frames (an LR pair is one unit)
+</code></pre>
+
+<p>After successful conversion, Status_Success is returned.<br/>
+Once this function is called, you <strong>must</strong> call SyroVolcaSample_End to finish or terminate.</p>
+
+<p>Refer to error codes in 3.4 in case of failure.</p>
+
+<h3>3.3c process SyroData per frame</h3>
+
+<p>Call the SyroVolcaSample_GetSample function</p>
+
+<pre><code>SyroStatus SyroVolcaSample_GetSample(
+    SyroHandle Handle, 
+    int16_t *pLeft, 
+    int16_t *pRight
+);
+</code></pre>
+
+<p>The arguments are as follows:</p>
+
+<pre><code>SyroHandle Handle           the handle obtained at step 3.3b
+int16_t *pLeft              the pointer of an array which is about to store L channel output sample data
+int16_t *pRight             the pointer of an array which is about to store R channel output sample data
+</code></pre>
+
+<p>Store the obtained sample data as a wav file or output to an audio device.<br/>
+Repeat this for pNumOfSyroFrame times, set at step 3.3b.</p>
+
+<h3>3.3d calling the conversion end function</h3>
+
+<p>When you have generated all sample data and/or want to terminate the conversion, call the function:</p>
+
+<pre><code>SyroStatus SyroVolcaSample_End(SyroHandle Handle)
+</code></pre>
+
+<p>Use the Handle obtained at step 3.3a.</p>
+
+<h3>3.4 About the returned value (SyroStatus)</h3>
+
+<p>Status_Success will be returned after successful conversion.
+Otherwise the following error code will be returned</p>
+
+<pre><code>Status_IllegalDataType      an illegal data type has been specified. Must specify SyroDataType.
+Status_IllegalData          the data specified is abnormal
+Status_IllegalParameter     the number of data specified at SyroVolcaSample_Start is illegal (must be 1 - 110).
+Status_OutOfRange_Number    the specifed sample or sequence number is out of range
+                            (sample number must be 0~99, sequence number must be 0~9)
+Status_OutOfRange_Quality   specified bit depth is out of range
+                            (must be 8~16)
+Status_NotEnoughMemory      not enough memory
+
+Status_InvalidHandle        and invalid handle has been used
+Status_NoData               there is no more data to be converted
+</code></pre>
+
+<hr />
+
+<h2>4. using the example to generate syrostream</h2>
+
+<p>The sample source code in the “example” folder generates syrostream in wav format.</p>
+
+<p>The VC2010 project and Makefile to build the sample source code is contained in the project folder.<br/>
+To create a project using an IDE, use and build the C source code inside the “example” and “syro” folders.<br/>
+To create an executable using command line or terminal, use Makefile inside the “project”.<br/>
+Type “make” for building. Default compiler is set to gcc. To use clang, type “make CC=clang”.</p>
+
+<p>To execute within the console type the following:</p>
+
+<pre><code>&gt;korg_syro_volcasample_example "TargetFile.wav" "SourceFile1" "SourceFile2" ......
+</code></pre>
+
+<h4>korg_syro_volcasample_example</h4>
+
+<ul>
+<li>name of the sample executable file</li>
+<li>this is assumed to be the same as the source file name, but is dependant on the build environment.</li>
+</ul>
+
+
+<h4>TargetFile.wav</h4>
+
+<ul>
+<li>the name of the generated syrostream file.</li>
+<li>set the extension here to .wav</li>
+<li>when using spaces in the file name, always put in double quotes.</li>
+</ul>
+
+
+<h4>SourceFile</h4>
+
+<ul>
+<li>specifies the data to be converted</li>
+<li>the data type and number are also set here.</li>
+<li>remember to double quote when using spaces.</li>
+</ul>
+
+
+<p>the format is as follows:</p>
+
+<pre><code>    "x17c12:filename"
+     TT~TT~T~~~~T~~~
+     || || |    +-------    the file name to be converted
+     || || |                not necessary when deleting samples
+     || || +------------    use : as a seperater
+     || ||                  necessary even when a file name is not specified
+     || |+--------------    the bit depth of the conversion 8~16 bits. applicable only when converting samples
+     || |                   assumes 16 bits if omitted
+     || +---------------    lossless compression
+     ||                     (it's lossless so always use it)
+     |+-----------------    sets sample slot number (0~99) or sequence number (1~10)
+     |                      do not specify when converting for all samples
+     +------------------    sets type of data to be converted
+                            s:sample
+                            e:erase sample
+                            p:sequence pattern
+                            a:all sample
+                            only 16bit mono wav samples are supported
+</code></pre>
+
+<p>examples:</p>
+
+<pre><code>"s20c:kick.wav"                 converts kick.wav to be transfered to sample slot 20
+"s57c12:snare.wav"              converts snare.wav to be transfered to sample slot 57 at a quality of 12bits
+"e27:"                          generates syro stream to erase sample slot 27
+"p01:pattern1.dat"              converts pattern1.dat to be transfered to sequence 1
+"ac:volcasample_preset.alldata" converts volcasmple_preset.alldata to overwrite all samples
+</code></pre>
+
+<p>Multiples of these can be written in succession.<br/>
+example:</p>
+
+<pre><code>"s0c:kick1.wav" "s1c:snare1.wav" converts kick1.wav to be transfered to sample slot 0 and snare1.wav to be transfered to sample slot 1.
+</code></pre>
+
+<hr />
+
+<h2>5. Pattern data structure</h2>
+
+<p>SYRO for volca sample can convert sequence data as well.<br/>
+Here, we explain the structure of the sequence pattern data.</p>
+
+<p>The structure is defined in VolcaSample_PatternData in volcasample_pattern.h.<br/>
+Always use little endian when storing 16 or 32 bit values.<br/>
+Reserved and Padding member names do not have meaning so their explanations are omitted.</p>
+
+<pre><code>uint32_t Header;
+uint16_t DevCode;
+</code></pre>
+
+<p>These are fields to specify that the data is pattern data for the volca sample.<br/>
+set to 0x54535450 and 0x33b8.<br/>
+(These are also defined as VOLCASAMPLE_PATTERN_HEADER、VOLCASAMPLE_PATTERN_DEVCODE)</p>
+
+<pre><code>uint16_t ActiveStep;
+</code></pre>
+
+<p>Sets active step on/off as a bitmap<br/>
+steps 1~16 correspond to bits 0~15, 0=off and 1=on.<br/>
+this is usually set to 0xffff (all on)<br/>
+0 cannot be set since there would be no steps in the sequence.</p>
+
+<pre><code>uint32_t Footer;
+</code></pre>
+
+<p>Field to specify that the data is pattern data for the volca sample.<br/>
+set to 0x44455450<br/>
+(This is also defined as VOLCASAMPLE_PATTERN_FOOTER)</p>
+
+<p>Each part data is defined in <strong>VolcaSample_Part_Data</strong>
+the following are contained in its members:</p>
+
+<pre><code>uint16_t SampleNum;
+</code></pre>
+
+<p>the sample number (0~99) to be used.</p>
+
+<pre><code>uint16_t StepOn;
+</code></pre>
+
+<p>a bit map to set step on/off<br/>
+steps 1~16 correspond to bits 0~15, 0=off and 1=on.</p>
+
+<pre><code>uint16_t Accent;
+</code></pre>
+
+<p>this parameter cannot be operated on the volca sample. Must be set to 0.</p>
+
+<pre><code>uint8_t Level;
+</code></pre>
+
+<p>this parameter cannot be operated on the volca sample. Must be set to 127.</p>
+
+<pre><code>uint8_t Param[VOLCASAMPLE_NUM_OF_PARAM];
+</code></pre>
+
+<p>stores each knob value.
+the array index and parameter names are as follows, with default values in brackets:</p>
+
+<pre><code>    0 : LEVEL           0~127, (127)
+    1 : PAN             1~127, 64=Center (64)
+    2 : SPEED           40~88, 64=Center (64) *changes speed in semitones (FUNC+SPEED operation)
+                        129~255, 192=Centre   *changes speed continuously
+    3 : AMP EG ATTACK   0~127 (0)
+    4 : AMP EG DECAY    0~127 (127)
+    5 : PITCH EG INT    1~127, 64=Center (64)
+    6 : PITCH EG ATTACK 0~127 (0)
+    7 : PITCH EG DECAY  0~127 (127)
+    8 : START POINT     0~127 (0)
+    9 : LENGTH          0~127 (127)
+    10: HI CUT          0~127 (127)
+</code></pre>
+
+<p>these are defined as VOLCASAMPLE_PARAM_xxxx</p>
+
+<pre><code>uint8_t FuncMemoryPart;
+</code></pre>
+
+<p>on/off for each part parameters</p>
+
+<pre><code>    bit0 : Motion On/Off  
+    bit1 : Loop On/Off  
+    bit2 : Reverb On/Off  
+    bit3 : Reverse On/Off  
+    bit4 : Mute On/Off (1=mute off)  
+</code></pre>
+
+<p>these are defined as VOLCASAMPLE_PARAM_xxxx<br/>
+VOLCASAMPLE_FUNC_BIT_xxxx is number of bit,</p>
+
+<pre><code>uint8_t Motion[VOLCASAMPLE_NUM_OF_MOTION][VOLCASAMPLE_NUM_OF_STEP];
+</code></pre>
+
+<p>motion sequence data.<br/>
+The 1st angle bracket([]) specifies the parameter to be motion sequenced. The 2nd specifies the step number.</p>
+
+<pre><code>    0 : LEVEL (start)
+    1 : LEVEL (end)
+    2 : PAN (start)
+    3 : PAN (end)
+    4 : SPEED (start)
+    5 : SPEED (end)
+</code></pre>
+
+<p>the above parameters have values both for the start and end of each motion sequenced step.<br/>
+they are interpolated during playback of the step between the start and end values.</p>
+
+<pre><code>    6 : AMP EG ATTACK
+    7 : AMP EG DECAY
+    8 : PITCH EG INT
+    9 : PITCH EG ATTACK
+    10: PITCH EG DECAY
+    11: SATRT POINT
+    12: LENGTH
+    13: HI CUT
+</code></pre>
+
+<p>The values for the motion sequence are as follows:</p>
+
+<pre><code>    speed                   knob value (0~127)
+    all other parameters    knob value +128
+
+    for all parameters, 0=no motion data
+</code></pre>
+
+<p>volcasample_attern.c contains a function to initialize pattern data:</p>
+
+<pre><code>void VolcaSample_Pattern_Init(VolcaSample_Pattern_Data *pattern_data)
+</code></pre>
+
+<p>This will set the data to be initialized as default parameter values.</p>
+
+<hr />
+
+<h2><a name="heading_id_doc_6"></a>6. transferring syrostream to your volca sample</h2>
+
+<p>Please make sure that volca sample system version is 1.2 or above.<br/>
+Visit our <a href="http://www.korg.com/volca_sample/" target="_blank">product page</a> for information on the latest system releases.<br/>
+The system version of your volca sample can be identified by holding [REC] while powering up.<br/>
+The 7-seg display will scroll through the following:</p>
+
+<pre><code>x.yy    main system version
+Px.yy   panel system version
+Sx.yy   sample version
+</code></pre>
+
+<p>where x.yy is the respective version number<br/>
+SYRO functionality is not affected by panel or sample version, just make sure system version is 1.2 or above.</p>
+
+<p><strong>Be careful when playing syro stream through speakers or headphones.</strong><br/>
+<strong>Playback at large volumes may cause damage to equipment and/or ears.</strong></p>
+
+<p>When volca sample detects syro stream input, [dAtA] and [data type] will be displayed alternately to show it is in receiving mode.<br/>
+[End] will be displayed on completion.</p>
+
+<p>When an error occurs, [Err] and [error type] will be displayed alternately.<br/>
+Push the [FUNC] button to return to normal operation</p>
+
+<h3>6.1 display codes while volca sample is receiving syro stream</h3>
+
+<pre><code>S.000 ~ S.099  : receiving sample to slot number 0~99
+P.001 ~ P.010  : receiving sequence patttern 1~10
+E.000 ~ E.099  : deleting sample slot 0~99
+ALL            : receiving all sample data
+</code></pre>
+
+<p>If an error occurs while receiving a sample, the sample in the receiving slot may be deleted.<br/>
+If an error occurs during all transfer, all sample memory will be deleted.</p>
+
+<h3>6.2 troubleshooting errors</h3>
+
+<p>if you get an error try the following:</p>
+
+<ul>
+<li>is your volca sample firmware up to date? <a href="http://www.korg.com/us/products/dj/volca_sample/download.php" target="_blank">get latest here</a>.</li>
+<li>is the audio device and volca sample properly connected with a stereo cable?</li>
+<li>is the output level high enough?</li>
+<li>are there any other sounds interrupting? (message alerts??)</li>
+<li>are you sure all audio EQ/effects/optimizers are turned off?</li>
+<li>if you get [Err][tyPE] check your volca sample system is up to date</li>
+<li>if you get [Err][FuLL] free some memory by deleting samples<br/>
+  this can be done on your volca sample by using the delete menu (refer to the manual in the ver.1.22 update package)<br/>
+  or by preparing and using sample delete syro streams.</li>
+<li>if you get [Err][btLo] change your batteries or use a power adapter.</li>
+</ul>
+
+
+<p>If you keep having problems with certain sample data, please let us know <a href="https://github.com/korginc/volcasample/issues" target="_blank">here</a>.</p>
+
+  
+    <footer>
+      
+      
+        <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://korginc.github.io//github/documentation.html" data-via="" data-counturl="http://korginc.github.io//github/documentation.html" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+      
+    </footer>
+  
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/korginc/volcasample">@korginc/volcasample</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'korginc/volcasample',
+            count: 1,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/volcasample/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+  </ul>
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - KORG Inc. -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> Published with <a href="https://pages.github.com/">GitHub Pages</a></span>
+</p>
+<p>
+<!-- Creative Commons License -->
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />korginc.github.io site content is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.<!-- /Creative Commons License -->
+</p>
+
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

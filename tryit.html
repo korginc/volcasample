@@ -9,7 +9,7 @@
   <meta name="author" content="KORG Inc.">
 
   
-  <meta name="description" content="Currently your volca sample can only receive external samples through an iOS device. This SDK allows you to create your own tools with the interface &hellip;">
+  <meta name="description" content="The &ldquo;example&rdquo; folder contains sample executables that will let you quickly try out converting sample audio data into syrostream. Launch &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://korginc.github.io//github">
+  <link rel="canonical" href="http://korginc.github.io//github/tryit.html">
   <link href="/volcasample/favicon.png" rel="icon">
   <link href="/volcasample/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/volcasample/atom.xml" rel="alternate" title="volca sample SDK" type="application/atom+xml">
@@ -89,45 +89,34 @@
     
   </header>
   
-  <p>Currently your volca sample can only receive external samples through an iOS device. This SDK allows you to create your own tools with the interface that you design for your platform. Not only will this library unleash the potential to load samples and sequences, it will empower users to combine this code with other features of your making.</p>
+  <p>The &ldquo;example&rdquo; folder contains sample executables that will let you quickly try out converting sample audio data into syrostream.</p>
 
-<p style="text-align:center;"> <em>Auto-slice a song to generate a sample set?<br/>
-Turn photos of patterns into sequences?<br/>
-algorithmic sample music generator?<br/>
-generate random sequence from quantum effects?</em></p>
+<h3>Launch the executable to generate syrostream</h3>
 
-<p style="text-align:center;"> The choice is yours. Your creativity and coding skills are the limits.</p>
-
-<h2>what is the KORG SYRO library?</h2>
-
-<p>It’s the main part of the SDK. It contains the algorithms that turn your sample or sequence data (syrodata) into audio data (syrostream) that the volca sample can decode when received through its SYNC IN port.</p>
-
-<h2>what is volca sample?</h2>
-
-<p>The volca sample is a sample sequencer that lets you edit and sequence up to 100 sample sounds in real time for powerful live performances.<br/>
-See more on our <a href="http://www.korg.com/volca_sample/" target="_blank">product page</a>.</p>
-
-<h2>features</h2>
+<p><em>File names in brackets for Mac. Windows otherwise.</em></p>
 
 <ul>
-<li>encode sample data for transfer into volca sample</li>
-<li>encode a 16 step sequence for transfer into volca sample</li>
-<li>delete specific samples in the volca sample</li>
-<li>delete all the samples in the volca sample</li>
+<li>double click makesyro_win.bat (makesyro_mac.command) in folder example/execute_win (example/execute_mac)</li>
+<li>syro_stream.wav will be generated</li>
 </ul>
 
 
-<h2>required audio specs</h2>
+<p>You have just performed conversion of &ldquo;02 Kick 3.wav&rdquo; contained in the same folder into syrostream &ldquo;syro_stream.wav&rdquo; with sample sample slot number 2. Play &ldquo;syro_stream.wav&rdquo; into the SYNC IN port of your volca and the sample will be transfered to slot number 2.</p>
 
-<p>KORG SYRO encodes binary data into audio using QAM (quadrature amplitude modulation). Like the old dial-up modems! It is sensitive to alterations to the audio like EQ and things like automatic level control. So please make sure they’re turned off on your device.</p>
+<p>*refer to <a href="/volcasample/documentation.html#heading_id_doc_6">6. transferring syrostream to your volca sample</a> in documentation for details.</p>
 
-<p>Your audio output device will need:</p>
+<h3>To specify your own sample audio data and sample slot number</h3>
 
 <ul>
-<li>native WAV playback</li>
-<li>stereo headphone or line level output</li>
+<li>place your sample in wav format in folder example/execute_win (example/execute_mac)</li>
+<li>open makesyro_win.bat (makesyro_mac.command) in a text editor.</li>
+<li>change &ldquo;02 Kick 3.wav&rdquo; in line 1 to your sample file name.</li>
+<li>change the number &ldquo;2&rdquo; in line 2 to a sample slot of your choice (0-99).</li>
+<li>save the changes.</li>
 </ul>
 
+
+<p>Now double click &ldquo;makesyro_win.bat&rdquo; (&ldquo;makesyro_mac.command&rdquo;) as before and the new &ldquo;syro_stream.wav&rdquo; will be generated from your specified sample file and slot number.</p>
 
   
     <footer>
@@ -135,7 +124,7 @@ See more on our <a href="http://www.korg.com/volca_sample/" target="_blank">prod
       
         <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://korginc.github.io//github/index.html" data-via="" data-counturl="http://korginc.github.io//github/index.html" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://korginc.github.io//github/tryit.html" data-via="" data-counturl="http://korginc.github.io//github/tryit.html" >Tweet</a>
   
   
   

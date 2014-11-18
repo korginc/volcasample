@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  
+  
+  <url>
+    <loc>http://korginc.github.io//github/documentation.html</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/gallery.html</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/blog/archives/</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/blog/</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/source.html</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/tryit.html</loc>
+    <lastmod>2014-11-18T15:00:01+09:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  
+  
+</urlset>
