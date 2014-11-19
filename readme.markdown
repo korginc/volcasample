@@ -340,7 +340,7 @@ This will set the data to be initialized as default parameter values.
 
 <img src="http://korginc.github.io/volcasample/images/connect.png" height="251" width="209">  
 
-Connect the ouput of your playback device with a stereo cable to the SYNC IN port of your volca smaple. Turn the volume up.  
+Connect the output of your playback device with a stereo cable to the SYNC IN port of your volca sample. Turn the volume up.  
 Now playback the generated syrostream and the volca sample will enter receive mode.  
 
 *Be careful when playing syro stream through speakers or headphones. Playback at large volumes may cause damage to equipment and/or ears.*
