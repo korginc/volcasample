@@ -14,7 +14,7 @@ SCRIPT_NAME="$(basename $SCRIPT_PATH)"
 SCRIPT_DIR="$(dirname $SCRIPT_PATH)"
 
 ARCH=$(arch)
-SYRO_CMD="$SCRIPT_DIR/syro_volcasample_exsample.$ARCH"
+SYRO_CMD="$SCRIPT_DIR/syro_volcasample_example.$ARCH"
 SYRO_TARGET_FILE="syro_stream.wav"
 
 CONVERT_ALREADY=false
