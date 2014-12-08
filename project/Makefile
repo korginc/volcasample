@@ -4,7 +4,7 @@
 # Copyright (C) 2014 Korg Inc.
 #
 # #############################################################################
-TARGET = syro_volcasample_exsample
+TARGET = syro_volcasample_example
 
 CC = gcc
 AR = ar
