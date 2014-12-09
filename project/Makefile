@@ -22,7 +22,9 @@ EXAMPLEDIR = ../example
 VERSION = $(shell git describe --always --tags)
 MAJOR_VERSION = $(shell git describe --always --tags | \
 					sed 's/^\([0-9]\).*/\1/')
-SONAME = libsyro.so.$(VERSION)
+
+LIBS_NAME_BASE = libsyro_volcasample
+SONAME = $(LIBS_NAME_BASE).so.$(VERSION)
 
 SRCS = $(SYRODIR)/korg_syro_comp.c \
 	$(SYRODIR)/korg_syro_func.c \
@@ -36,17 +38,17 @@ $(TARGET) : $(OBJS)
 %.o : %c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-libs: $(SYRODIR)/libsyro.a $(SYRODIR)/$(SONAME)
+libs: $(SYRODIR)/$(LIBS_NAME_BASE).a $(SYRODIR)/$(SONAME)
 
 # static library
-$(SYRODIR)/libsyro.a : $(OBJS)
+$(SYRODIR)/$(LIBS_NAME_BASE).a : $(OBJS)
 	$(AR) -cvq $@ $(OBJS)
 
 # shared library
 $(SYRODIR)/$(SONAME): $(OBJS)
 	$(CC) -shared -Wl,-soname,$(SONAME) -o $@ $(OBJS)
-	ln -s $(SYRODIR)/$(SONAME) $(SYRODIR)/libsyro.so.$(MAJOR_VERSION)
-	ln -s $(SYRODIR)/$(SONAME) $(SYRODIR)/libsyro.so
+	ln -s $(SYRODIR)/$(SONAME) $(SYRODIR)/$(LIBS_NAME_BASE).so.$(MAJOR_VERSION)
+	ln -s $(SYRODIR)/$(SONAME) $(SYRODIR)/$(LIBS_NAME_BASE).so
 
 # clean
 clean:
