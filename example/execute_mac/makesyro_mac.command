@@ -5,6 +5,6 @@ SYRO_TARGET_FILE='./syro_stream.wav'
 
 SYRO_PATH=./
 cd `dirname $0`
-$SYRO_PATH/syro_volcasample_exsample $SYRO_TARGET_FILE s${SYRO_NO}c:${SYRO_PATH}/"${SYRO_SRC_FILE}"
+$SYRO_PATH/syro_volcasample_example $SYRO_TARGET_FILE s${SYRO_NO}c:${SYRO_PATH}/"${SYRO_SRC_FILE}"
 echo 'Press Enter'
 read Wait
