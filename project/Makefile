@@ -29,7 +29,7 @@ SONAME = $(LIBS_NAME_BASE).so.$(VERSION)
 SRCS = $(SYRODIR)/korg_syro_comp.c \
 	$(SYRODIR)/korg_syro_func.c \
 	$(SYRODIR)/korg_syro_volcasample.c \
-	$(EXAMPLEDIR)/korg_syro_volcasample_exsample.c
+	$(EXAMPLEDIR)/korg_syro_volcasample_example.c
 OBJS = $(SRCS:.c=.o)
 
 $(TARGET) : $(OBJS)

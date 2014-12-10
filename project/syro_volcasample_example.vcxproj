@@ -74,7 +74,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\example\korg_syro_volcasample_exsample.c" />
+    <ClCompile Include="..\example\korg_syro_volcasample_example.c" />
     <ClCompile Include="..\syro\korg_syro_comp.c" />
     <ClCompile Include="..\syro\korg_syro_func.c" />
     <ClCompile Include="..\syro\korg_syro_volcasample.c" />
