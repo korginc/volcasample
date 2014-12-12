@@ -4,7 +4,7 @@
   <title><![CDATA[volca sample SDK]]></title>
   <link href="http://korginc.github.io//github/atom.xml" rel="self"/>
   <link href="http://korginc.github.io//github/"/>
-  <updated>2014-11-21T11:23:07+09:00</updated>
+  <updated>2014-12-12T09:26:08+09:00</updated>
   <id>http://korginc.github.io//github/</id>
   <author>
     <name><![CDATA[KORG Inc.]]></name>
@@ -14,10 +14,19 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Caustic Editor for Volca Sample by Single Cell Software!]]></title>
+    <link href="http://korginc.github.io//github/blog/2014/12/12/caustic-editor-from-single-cell-software/"/>
+    <updated>2014-12-12T09:20:20+09:00</updated>
+    <id>http://korginc.github.io//github/blog/2014/12/12/caustic-editor-from-single-cell-software</id>
+    <content type="html"><![CDATA[<p>Great work, posted in the <a href="http://korginc.github.io//github/gallery.html">gallery</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[We're Live!!!!]]></title>
-    <link href="http://korginc.github.io//github/blog/2014/11/19/were-live/"/>
+    <link href="http://korginc.github.io//github/blog/2014/11/19/were-live%202/"/>
     <updated>2014-11-19T10:00:00+09:00</updated>
-    <id>http://korginc.github.io//github/blog/2014/11/19/were-live</id>
+    <id>http://korginc.github.io//github/blog/2014/11/19/were-live 2</id>
     <content type="html"><![CDATA[<p>We look forward to the ideas that you throw back at us <strong>with screaming excitement.</strong></p>
 ]]></content>
   </entry>

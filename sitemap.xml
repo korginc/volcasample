@@ -3,7 +3,15 @@
   
   
   <url>
-    <loc>http://korginc.github.io//github/blog/2014/11/19/were-live/</loc>
+    <loc>http://korginc.github.io//github/blog/2014/12/12/caustic-editor-from-single-cell-software/</loc>
+    
+    <lastmod>2014-12-12T09:20:20+09:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://korginc.github.io//github/blog/2014/11/19/were-live%202/</loc>
     
     <lastmod>2014-11-19T10:00:00+09:00</lastmod>
     
@@ -13,56 +21,56 @@
   
   <url>
     <loc>http://korginc.github.io//github/documentation.html</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/gallery.html</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/blog/archives/</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/blog/</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/source.html</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://korginc.github.io//github/tryit.html</loc>
-    <lastmod>2014-11-21T11:23:07+09:00</lastmod>
+    <lastmod>2014-12-12T09:26:08+09:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
