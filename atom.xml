@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[volca sample SDK]]></title>
+  <title><![CDATA[KORG SYRO]]></title>
   <link href="http://korginc.github.io//github/atom.xml" rel="self"/>
   <link href="http://korginc.github.io//github/"/>
-  <updated>2014-12-12T09:26:08+09:00</updated>
+  <updated>2015-12-17T20:33:37+09:00</updated>
   <id>http://korginc.github.io//github/</id>
   <author>
     <name><![CDATA[KORG Inc.]]></name>
