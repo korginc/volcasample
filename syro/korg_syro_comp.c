@@ -394,7 +394,7 @@ static int SyroComp_CompBlock(uint8_t *map_buffer, uint8_t *dest, ReadSample *pr
 	/*----- wrtie bit-base ------*/
 	j = 0;
 	for (i=0; i<16; i++) {
-		if (pBitBase[j]==i) {
+		if (j < 4 && pBitBase[j]==i) {
 			BitHead[i] = j++;
 			SyroComp_WriteBit(&wp, (uint32_t)(i-1), 4);
 		} else {
