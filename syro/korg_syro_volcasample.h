@@ -9,7 +9,7 @@
 #define SYRO_VOLCASAMPLE_VERSION		0x100		
 
 //////////////////////////////////////////////////////////////////
-#define	VOLCASAMPLE_NUM_OF_SAMPLE		100
+#define	VOLCASAMPLE_NUM_OF_SAMPLE		200
 #define	VOLCASAMPLE_NUM_OF_PATTERN		10
 
 #define VOLCASAMPLE_PATTERN_SIZE		0xA40
